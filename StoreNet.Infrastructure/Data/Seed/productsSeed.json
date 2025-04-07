@@ -1,0 +1,52 @@
+[
+    {
+        "Name": "Smartphone Galaxy X10",
+        "Description": "Un smartphone ultra-performant avec un écran AMOLED et une batterie longue durée.",
+        "Price": 799.99,
+        "StockQuantity": 50,
+        "Category": "Smartphone",
+        "Brand": "Samsung",
+        "ImageUrl": "https://example.com/images/galaxy-x10.jpg",
+        "DiscountPercent": 10
+    },
+    {
+        "Name": "Laptop Pro 15",
+        "Description": "Un ordinateur portable haut de gamme avec un processeur Intel i7 et 16 Go de RAM.",
+        "Price": 1299.99,
+        "StockQuantity": 30,
+        "Category": "Laptops",
+        "Brand": "Apple",
+        "ImageUrl": "https://example.com/images/laptop-pro-15.jpg",
+        "DiscountPercent": 15
+    },
+    {
+        "Name": "Headphones Elite 3000",
+        "Description": "Casque audio Bluetooth avec réduction active du bruit et autonomie de 30 heures.",
+        "Price": 199.99,
+        "StockQuantity": 100,
+        "Category": "Audio",
+        "Brand": "Bose",
+        "ImageUrl": "https://example.com/images/headphones-elite-3000.jpg",
+        "DiscountPercent": 5
+    },
+    {
+        "Name": "Smartwatch X4",
+        "Description": "Montre connectée avec suivi de la santé, notifications et une batterie qui dure toute la journée.",
+        "Price": 249.99,
+        "StockQuantity": 80,
+        "Category": "Wearables",
+        "Brand": "Garmin",
+        "ImageUrl": "https://example.com/images/smartwatch-x4.jpg",
+        "DiscountPercent": 20
+    },
+    {
+        "Name": "Tablet Pro 8",
+        "Description": "Tablette 8 pouces avec un écran Retina et une caméra de 12 MP, idéale pour le travail et le divertissement.",
+        "Price": 399.99,
+        "StockQuantity": 60,
+        "Category": "Tablets",
+        "Brand": "Apple",
+        "ImageUrl": "https://example.com/images/tablet-pro-8.jpg",
+        "DiscountPercent": 10
+    }
+]
