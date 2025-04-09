@@ -4,8 +4,11 @@ namespace StoreNet.Application.Interfaces.Persistence;
 
 public interface ICartRepository
 {
+    Task<Cart?> GetByIdAsync(Guid id);
     Task<Cart?> GetByUserIdAsync(Guid userId);
-    Task<int> AddAsync(Cart cart);
-    Task<int> UpdateAsync(Cart cart);
-    Task<int> DeleteAsync(Cart cart);
+    Task AddAsync(Cart cart);
+    Task UpdateAsync(Cart cart);
+    Task DeleteAsync(Cart cart);
+    Task<bool> ExistsForUserAsync(Guid userId);
+    Task SaveChangesAsync();
 }

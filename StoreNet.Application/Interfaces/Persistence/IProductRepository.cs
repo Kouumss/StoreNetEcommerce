@@ -8,9 +8,9 @@ public interface IProductRepository
 {
     Task<IReadOnlyList<Product>> GetAllProductsAsync(ProductFilter filter);
     Task<Product?> GetByIdAsync(Guid id);
-    Task<int> AddAsync(Product product);
-    Task<int> UpdateAsync(Product Product);
-    Task<int> DeleteAsync(Product Product);
+    Task AddAsync(Product product);
+    Task UpdateAsync(Product Product);
+    Task DeleteAsync(Product Product);
     Task<bool> ExistsAsync(string name);
 }
 

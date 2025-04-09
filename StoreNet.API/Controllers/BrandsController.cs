@@ -4,6 +4,7 @@ using StoreNet.Application.Interfaces.Services;
 using StoreNet.API.Dtos.Brand;
 using AutoMapper;
 using StoreNet.Application.Dtos.Brands;
+using StoreNet.Application.Dtos.Products;
 
 namespace StoreNet.Api.Controllers
 {
@@ -53,20 +54,41 @@ namespace StoreNet.Api.Controllers
             return Ok(result);
         }
 
+        //Mettre à jour une marque
+
         // Mettre à jour une marque
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> UpdateBrand(Guid id, UpdateBrandRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var updateBrandCommand = mapper.Map<UpdateBrandDto>(request);
-            var result = await brandService.UpdateBrandAsync(id, updateBrandCommand);
 
-            if (!result.IsSuccess)
-                return NotFound(result);
+            var dto = new UpdateBrandDto(
+                Name: request.Name,
+                Description: request.Description,
+                IsAvailable: request.IsAvailable
+            ) with
+            { Id = id };
 
-            return Ok(result);
+            var result = await brandService.UpdateBrandAsync(dto);
+
+            return result.IsSuccess
+                ? Ok(result)
+                : NotFound(result);
         }
+        //[HttpPut("Update/{id}")]
+        //public async Task<IActionResult> UpdateBrand(Guid id, UpdateBrandRequest request)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+        //    var dto = mapper.Map<UpdateBrandDto>((Request: request, Id: id));
+        //    var result = await brandService.UpdateBrandAsync(dto);
+
+        //    if (!result.IsSuccess)
+        //        return NotFound(result);
+
+        //    return Ok(result);
+        //}
 
         // Supprimer une marque
         [HttpDelete("Delete/{id}")]

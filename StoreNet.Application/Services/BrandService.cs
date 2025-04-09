@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using StoreNet.Application.Dtos.Brands;
+using StoreNet.Application.Dtos.Products;
 using StoreNet.Application.Interfaces.Persistence;
 using StoreNet.Application.Interfaces.Services;
 using StoreNet.Domain.Entities;
@@ -43,14 +44,15 @@ public class BrandService : IBrandService
         return ServiceResult.Failure("Failed to create brand");
     }
 
-    public async Task<ServiceResult> UpdateBrandAsync(Guid id, UpdateBrandDto command)
+    public async Task<ServiceResult> UpdateBrandAsync(UpdateBrandDto dto)
     {
-        var existingBrand = await _brandRepository.GetByIdAsync(id);
+        var brand = await _brandRepository.GetByIdAsync(dto.Id);
 
-        if (existingBrand is null)
-            return ServiceResult.Failure($"Brand with ID {id} not found");
+        if (brand is null)
+            return ServiceResult.Failure($"Brand with ID {dto.Id} not found");
 
-        var brand = _mapper.Map<Brand>(command);
+        brand.UpdateDetails(dto.Name, dto.Description, dto.IsAvailable);
+
         int result = await _brandRepository.UpdateAsync(brand);
         if (result > 0)
             return ServiceResult.Success("Brand updated successfully");

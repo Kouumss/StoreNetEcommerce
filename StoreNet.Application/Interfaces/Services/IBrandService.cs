@@ -8,6 +8,6 @@ public interface IBrandService
     Task<ServiceResult<IReadOnlyList<Brand>>> GetBrandsAsync();
     Task<ServiceResult<Brand?>> GetBrandByIdAsync(Guid id);
     Task<ServiceResult> CreateBrandAsync(CreateBrandDto command);
-    Task<ServiceResult> UpdateBrandAsync(Guid id, UpdateBrandDto command);
+    Task<ServiceResult> UpdateBrandAsync(UpdateBrandDto command);
     Task<ServiceResult> DeleteBrandAsync(Guid id);
 }

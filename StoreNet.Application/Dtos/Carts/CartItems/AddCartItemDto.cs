@@ -1,8 +1,7 @@
 ﻿namespace StoreNet.Application.Dtos.Carts.CartItems;
 
-// Commandes
 public record AddCartItemDto(
+    Guid UserId,
     Guid ProductId,
     int Quantity
 );
-

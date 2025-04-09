@@ -59,19 +59,19 @@ public class ApiMappingProfile : Profile
         CreateMap<AddOrderItemRequest, AddOrderItemDto>();
 
         // CART
-        CreateMap<CartDto, CartResponse>()
-            .ReverseMap();
+        CreateMap<CartDto, CartResponse>().ReverseMap();
+        CreateMap<CartItemDto, CartItemDto>().ReverseMap();
 
         // CART ITEM
         CreateMap<CartItemDto, CartItemResponse>().ReverseMap();
         CreateMap<AddCartItemRequest, AddCartItemDto>().ReverseMap();
-        CreateMap<UpdateCartItemRequest, UpdateCartItemDto>().ReverseMap();
+        CreateMap<UpdateCartItemQuantityRequest, UpdateCartItemDto>().ReverseMap();
 
         // BRAND
         CreateMap<BrandDto, BrandResponse>().ReverseMap();
         CreateMap<CreateBrandRequest, CreateBrandDto>();
-        CreateMap<UpdateBrandRequest, UpdateBrandDto>();
-
+        CreateMap<(UpdateBrandRequest Request, Guid Id), UpdateBrandDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
         // CATEGORY
         CreateMap<CategoryDto, CategoryResponse>().ReverseMap();
         CreateMap<CreateCategoryRequest, CreateCategoryDto>();

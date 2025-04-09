@@ -1,9 +1,16 @@
-﻿using StoreNet.Application.Dtos.Carts.CartItems;
+﻿
+using StoreNet.Application.Dtos.Carts.CartItems;
 
 namespace StoreNet.Application.Dtos.Carts;
-public record CartDto(
-    Guid Id,
-    Guid UserId,
-    decimal TotalPrice,
-    List<CartItemDto> Items
-);
+
+public class CartDto
+{
+    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
+    public List<CartItemDto> Items { get; set; } = [];
+}
+
+
+
+
+

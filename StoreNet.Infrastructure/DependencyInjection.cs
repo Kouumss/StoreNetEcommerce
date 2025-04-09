@@ -17,7 +17,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -28,6 +28,8 @@ public static class DependencyInjection
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<ITokenRepository, TokenRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // Configuration unique d'Identity
         services.AddIdentity<AppUser, IdentityRole<Guid>>(options =>

@@ -1,4 +1,6 @@
-﻿namespace StoreNet.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StoreNet.Domain.Entities;
 
 public class Product : BaseEntity
 {
@@ -8,6 +10,9 @@ public class Product : BaseEntity
     private int _stockQuantity;
     private string _imageUrl = string.Empty;
     private int _discountPercent;
+
+  
+
 
     public string Name
     {
@@ -53,7 +58,6 @@ public class Product : BaseEntity
 
     public decimal PriceAfterDiscount => Price * (1 - DiscountPercent / 100m);
 
-    public ICollection<CartItem> CartItems { get; set; }
     public ICollection<OrderItem> OrderItems { get; set; }
 
     public static Product Create(

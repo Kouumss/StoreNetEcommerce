@@ -16,7 +16,7 @@ public class Program
         Log.Logger = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .WriteTo.Console()
-            .WriteTo.File("log/log.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
             .CreateLogger();
 
         try

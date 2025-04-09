@@ -53,28 +53,27 @@ public class ProductRepository(ApplicationDbContext _context) : IProductReposito
     public async Task<Product?> GetByIdAsync(Guid id)
     {
         return await _context.Products
-            .AsNoTracking()
             .Include(p => p.Category)
             .Include(p => p.Brand)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<int> AddAsync(Product product)
+    public async Task AddAsync(Product product)
     {
         await _context.Products.AddAsync(product);
-        return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<int> UpdateAsync(Product product)
+    public async Task UpdateAsync(Product product)
     {
         _context.Products.Update(product);
-       return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<int> DeleteAsync(Product product)
+    public async Task DeleteAsync(Product product)
     {
         _context.Products.Remove(product);
-        return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
     public async Task<bool> ExistsAsync(string name)

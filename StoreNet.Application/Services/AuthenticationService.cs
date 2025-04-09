@@ -5,13 +5,16 @@ using StoreNet.Application.Dtos.Auth;
 using StoreNet.Application.Dtos.Users;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using StoreNet.Application.Dtos.Carts;
+using StoreNet.Application.Dtos.Carts.CartItems;
 
 public class AuthenticationService(
     IAuthenticationRepository authenticationRepository,
     ITokenRepository tokenRepository,
     IRoleRepository roleRepository,
     IUserRepository userRepository,
-    UserManager<AppUser> userManager
+    UserManager<AppUser> userManager,
+    ICartService cartService
     ) : IAuthenticationService
 {
     public async Task<ServiceResult> RegisterUserAsync(RegisterDto dto)
@@ -29,6 +32,7 @@ public class AuthenticationService(
         var creationResult = await authenticationRepository.RegisterUserAsync(newUser, dto.Password);
         if (!creationResult)
             return ServiceResult.Failure("Registration failed: Email may already be in use.");
+        
 
         // 3. Attribution du rôle
         var roleAssigned = await roleRepository.AssignRoleToUserAsync(newUser);
@@ -36,6 +40,15 @@ public class AuthenticationService(
         {
             await userRepository.DeleteUserAsync(newUser.Id);
             return ServiceResult.Failure("Registration failed: Could not assign role.");
+        }
+
+        // 4. Création du panier
+        var cartResult = await cartService.CreateCartAsync(newUser.Id);
+
+        if (!cartResult.IsSuccess)
+        {
+            await userRepository.DeleteUserAsync(newUser.Id);
+            return ServiceResult.Failure("Registration failed: Could not create cart.");
         }
 
         var firstLogin = await LoginUserAsync(new LoginDto(dto.Email, dto.Password));
@@ -62,6 +75,7 @@ public class AuthenticationService(
         if (user is null)
             return ServiceResult<AuthResultDto>.Failure("User not found.");
         await tokenRepository.StoreRefreshTokenAsync(user, refreshToken);
+
 
         var userDto = new UserDto(
                 user.Id,

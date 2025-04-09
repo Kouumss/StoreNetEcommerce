@@ -47,11 +47,19 @@ public class ApplicationMappingProfile : Profile
         CreateMap<AddOrderItemDto, OrderItem>();
 
         // CART
-        CreateMap<Cart, CartDto>()
-            .ReverseMap();
+        // Mapping Cart (Entity) → CartDto
+        CreateMap<Cart, CartDto>().ReverseMap();
+
 
         // CART ITEM
-        CreateMap<CartItem, CartItemDto>().ReverseMap();
+        CreateMap<CartItem, CartItemDto>()
+          .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product ?? null));
+
+        CreateMap<CartItemDto, CartItem>()
+        .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+        .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+        .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
+
         CreateMap<AddCartItemDto, CartItem>().ReverseMap();
         CreateMap<UpdateCartItemDto, CartItem>().ReverseMap();
 

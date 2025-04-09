@@ -26,9 +26,10 @@ public class UserRepository : IUserRepository
     public async Task<IReadOnlyList<AppUser>> GetAllUsersAsync(UserFilter filter)
     {
         IQueryable<AppUser> query = _context.Users
-            .Include(u => u.Addresses)
-            .Include(u => u.Orders)
-            .AsQueryable();
+        .Include(u => u.Addresses)
+        .Include(u => u.Cart)
+            .ThenInclude(c => c.Items)
+        .Include(u => u.Orders);
 
         if (filter.Roles != null && filter.Roles.Count > 0)
         {

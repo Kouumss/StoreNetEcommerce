@@ -11,9 +11,11 @@ public class AuthenticationRepository(
     public async Task<bool> RegisterUserAsync(AppUser user, string password)
     {
         var existingUser = await userManager.FindByEmailAsync(user.Email!);
-        if (existingUser is not null) return false;
+        if (existingUser is not null) 
+            return false;
 
         var result = await userManager.CreateAsync(user, password);
+
         return result.Succeeded;
     }
 

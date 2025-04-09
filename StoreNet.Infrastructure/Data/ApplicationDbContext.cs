@@ -20,6 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<Guid
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,14 +44,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<Guid
    );
 
         // Configuration 
-
-        modelBuilder.Entity<CartItem>()
-           .Property(p => p.DiscountPercent)
-           .HasColumnType("decimal(18, 2)");
-
-        modelBuilder.Entity<CartItem>()
-           .Property(p => p.UnitPrice)
-           .HasColumnType("decimal(18, 2)");
 
         modelBuilder.Entity<Order>()
            .Property(p => p.TotalAmount)
@@ -80,31 +73,32 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<Guid
           .Property(p => p.Amount)
           .HasColumnType("decimal(18,2)");
 
-        modelBuilder.Entity<Product>()
-            .HasOne(p => p.Category)
-            .WithMany(c => c.Products)
-            .HasForeignKey(p => p.CategoryId)
-            .OnDelete(DeleteBehavior.Restrict);
+        //CART
+        modelBuilder.Entity<Cart>()
+       .HasMany(c => c.Items)
+       .WithOne(i => i.Cart)
+       .HasForeignKey(i => i.CartId)
+       .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Product>()
-            .HasOne(p => p.Brand)
-            .WithMany(b => b.Products)
-            .HasForeignKey(p => p.BrandId)
-            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<CartItem>()
+            .HasOne(i => i.Cart)
+            .WithMany(c => c.Items)
+            .HasForeignKey(i => i.CartId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // Configuration User-Cart (1-to-1)
+        // Configuration de la relation User-Cart
         modelBuilder.Entity<AppUser>()
             .HasOne(u => u.Cart)
-            .WithOne(c => c.User) // Ajoutez la navigation inverse
+            .WithOne(c => c.User)
             .HasForeignKey<Cart>(c => c.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // Configuration Cart-Items
+        // Configuration de la relation Cart-Items (comme précédemment)
         modelBuilder.Entity<Cart>()
             .HasMany(c => c.Items)
-            .WithOne(i => i.Cart) // Ajoutez la navigation inverse
+            .WithOne(i => i.Cart)
             .HasForeignKey(i => i.CartId)
-            .OnDelete(DeleteBehavior.ClientCascade);
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configuration Order-User
         modelBuilder.Entity<Order>()
@@ -124,20 +118,6 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<Guid
             .HasOne(oi => oi.Product)
             .WithMany(p => p.OrderItems)
             .HasForeignKey(oi => oi.ProductId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        // Configuration CartItems
-        modelBuilder.Entity<CartItem>()
-            .HasOne(ci => ci.Product)
-            .WithMany(p => p.CartItems)
-            .HasForeignKey(ci => ci.ProductId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        // Configuration Order-User
-        modelBuilder.Entity<Address>()
-            .HasOne(o => o.User)
-            .WithMany(u => u.Addresses)
-            .HasForeignKey(o => o.UserId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

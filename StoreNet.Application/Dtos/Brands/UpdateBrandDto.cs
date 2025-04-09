@@ -1,7 +1,11 @@
 ﻿namespace StoreNet.Application.Dtos.Brands;
 
 public record UpdateBrandDto(
-    string? Name,
-    string? Description,
-    bool? IsAvailable
-);
+    string? Name = null,
+    string? Description = null,
+    bool? IsAvailable = null
+)
+{
+    public Guid Id { get; init; } 
+};
+
